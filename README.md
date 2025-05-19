@@ -47,7 +47,31 @@ Student Number: 2306203526
   ![Client 2](https://github.com/user-attachments/assets/a3d797bf-d964-4ebe-8afc-ee78d1ea0218)
   ![Client 3](https://github.com/user-attachments/assets/2ab3bdec-c9ef-432d-bbf5-ebab342e8477)
 
+#### 2. Experiment 2.2: Modifying port
+**Modifications**
+- **Server** (`src/bin/server.rs`): changed
+  ```rust
+  let listener = tokio::net::TcpListener::bind("127.0.0.1:2000").await?;
+  ```
+  to
+  ```rust
+  let listener = tokio::net::TcpListener::bind("127.0.0.1:8080").await?;
+  ```
+- **Client** (`src/bin/client.rs`): changed
+  ```rust
+  let (ws_stream, _) = ClientBuilder::from_uri(Uri::from_static("ws://127.0.0.1:2000"))
+  ```
+  to
+  ```rust
+  let (ws_stream, _) = ClientBuilder::from_uri(Uri::from_static("ws://127.0.0.1:8080"))
+  ```
+- We’re still using the same ws:// scheme—nothing changes in the protocol itself. That scheme is defined in the Uri::from_static("ws://...") call in the client, and the server’s ServerBuilder automatically upgrades incoming TCP connections on that port to WebSockets.
 
+**Results**
+![Server](https://github.com/user-attachments/assets/7091b275-7d62-414e-8548-d0add348f550)
+![Client 1](https://github.com/user-attachments/assets/3cb4f7c8-ef82-4681-a961-2d5ef992f708)
+![Client 2](https://github.com/user-attachments/assets/98d48088-2796-461c-9e1f-027e91c78abc)
+![Client 3](https://github.com/user-attachments/assets/aed1266e-3fd0-43d5-b980-3be63d9e6d6f)
 
 
 </details>
